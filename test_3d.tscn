@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://boaaxfs3jv7y7"]
+
+[ext_resource type="PackedScene" uid="uid://chbh127wmfowb" path="res://player_character.tscn" id="1_hkadm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yi1vn"]
+size = Vector3(160, 0.25, 160)
+
+[sub_resource type="Gradient" id="Gradient_hkadm"]
+offsets = PackedFloat32Array(0.217213, 0.57377, 1)
+colors = PackedColorArray(2.40654e-07, 0.179404, 0.0403286, 1, 0.186905, 0.0816057, 0, 1, 0.188235, 0.0823529, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0h7nl"]
+noise_type = 2
+frequency = 0.1716
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mer1j"]
+color_ramp = SubResource("Gradient_hkadm")
+noise = SubResource("FastNoiseLite_0h7nl")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s6xjt"]
+albedo_texture = SubResource("NoiseTexture2D_mer1j")
+
+[sub_resource type="BoxMesh" id="BoxMesh_yi1vn"]
+size = Vector3(160, 0.25, 160)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkadm"]
+albedo_color = Color(0.36, 0.21732, 0.0648, 1)
+
+[node name="Main" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+shape = SubResource("BoxShape3D_yi1vn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor/CollisionShape3D"]
+material_override = SubResource("StandardMaterial3D_s6xjt")
+mesh = SubResource("BoxMesh_yi1vn")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_hkadm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 11, 9)
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("1_hkadm")]
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
