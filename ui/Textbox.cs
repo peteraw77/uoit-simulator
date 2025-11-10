@@ -1,5 +1,7 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 enum State
 {
@@ -11,21 +13,31 @@ enum State
 public partial class Textbox : CanvasLayer
 {
 	[Export]
-	public String DisplayText = "";
+	public Array<string> DisplayText;
 
 	MarginContainer Container;
 	Label Label;
+	
+	Tween TextboxTween;
 
 	private const float _charReadRate = 0.1f;
 
-	State CurrentState = State.Ready;
+	State CurrentState;
+
+	int TextIndex;
 
 	void _ready()
 	{
 		Container = GetNodeOrNull<MarginContainer>("MarginContainer");
 		Label = GetNodeOrNull<Label>("MarginContainer/MarginContainer/HBoxContainer/Label");
 
-		AddText(DisplayText);
+		Tween TextboxTween = GetTree().CreateTween();
+
+		CurrentState = State.Ready;
+
+		TextIndex = 0;
+
+		HideTextbox();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -34,7 +46,14 @@ public partial class Textbox : CanvasLayer
 		{
 			switch (CurrentState)
 			{
-
+				case State.Ready:
+					Label.VisibleRatio = 1.0f;
+					TextboxTween.Stop(); // why?
+					break;
+				case State.Reading:
+					break;
+				case State.Finished:
+					break;
 			}
 		}
 	}
@@ -47,24 +66,25 @@ public partial class Textbox : CanvasLayer
 
 	void ShowTextbox()
 	{
-		Label.Text = DisplayText;
+		Label.Text = DisplayText[TextIndex];
 		Container.Show();
 	}
 
-	void AddText(String NextText)
+	void ShowNextText()
 	{
-		DisplayText = NextText;
+		TextIndex = TextIndex < DisplayText.Count ? TextIndex + 1 : 0;
 		ShowTextbox();
 
-		Tween tween = GetTree().CreateTween();
-		tween.TweenProperty
+		string CurrentText = DisplayText[TextIndex];
+
+		TextboxTween.TweenProperty
 		(
 			Label,
 			"visible_characters",
-			DisplayText.Length,
-			DisplayText.Length * _charReadRate
+			CurrentText.Length,
+			CurrentText.Length * _charReadRate
 		).From(0);
-		tween.TweenCallback(Callable.From(() => SetState(State.Finished)));
+		TextboxTween.TweenCallback(Callable.From(() => SetState(State.Finished)));
 	}
 
 	void SetState(State NextState)

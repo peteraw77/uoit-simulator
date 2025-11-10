@@ -14,8 +14,8 @@ noise_type = 2
 frequency = 0.1716
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mer1j"]
-color_ramp = SubResource("Gradient_hkadm")
 noise = SubResource("FastNoiseLite_0h7nl")
+color_ramp = SubResource("Gradient_hkadm")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s6xjt"]
 albedo_texture = SubResource("NoiseTexture2D_mer1j")
