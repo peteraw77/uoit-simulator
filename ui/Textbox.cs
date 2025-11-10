@@ -25,8 +25,15 @@ public partial class Textbox : CanvasLayer
 	State CurrentState;
 
 	int TextIndex;
+	
+	public Textbox()
+    {
+		DisplayText = new Array<string>();
 
-	void _ready()
+		TextIndex = 0;
+    }
+
+	public override void _Ready()
 	{
 		Container = GetNodeOrNull<MarginContainer>("MarginContainer");
 		Label = GetNodeOrNull<Label>("MarginContainer/MarginContainer/HBoxContainer/Label");
@@ -34,8 +41,6 @@ public partial class Textbox : CanvasLayer
 		Tween TextboxTween = GetTree().CreateTween();
 
 		CurrentState = State.Ready;
-
-		TextIndex = 0;
 
 		HideTextbox();
 	}
@@ -47,12 +52,17 @@ public partial class Textbox : CanvasLayer
 			switch (CurrentState)
 			{
 				case State.Ready:
-					Label.VisibleRatio = 1.0f;
-					TextboxTween.Stop(); // why?
+					if (TextIndex > -1)
+						ShowNextText();
 					break;
 				case State.Reading:
+					// stop text flow and set visibility manually
+					Label.VisibleRatio = 1.0f;
+					TextboxTween.Stop();
 					break;
 				case State.Finished:
+					SetState(State.Ready);
+					HideTextbox();
 					break;
 			}
 		}
@@ -72,7 +82,7 @@ public partial class Textbox : CanvasLayer
 
 	void ShowNextText()
 	{
-		TextIndex = TextIndex < DisplayText.Count ? TextIndex + 1 : 0;
+		TextIndex = TextIndex < DisplayText.Count ? TextIndex + 1 : -1;
 		ShowTextbox();
 
 		string CurrentText = DisplayText[TextIndex];
