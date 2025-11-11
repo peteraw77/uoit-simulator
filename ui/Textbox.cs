@@ -27,18 +27,16 @@ public partial class Textbox : CanvasLayer
 	int TextIndex;
 	
 	public Textbox()
-    {
+	{
 		DisplayText = new Array<string>();
 
 		TextIndex = 0;
-    }
+	}
 
 	public override void _Ready()
 	{
 		Container = GetNodeOrNull<MarginContainer>("MarginContainer");
 		Label = GetNodeOrNull<Label>("MarginContainer/MarginContainer/HBoxContainer/Label");
-
-		Tween TextboxTween = GetTree().CreateTween();
 
 		CurrentState = State.Ready;
 
@@ -52,8 +50,7 @@ public partial class Textbox : CanvasLayer
 			switch (CurrentState)
 			{
 				case State.Ready:
-					if (TextIndex > -1)
-						ShowNextText();
+					ShowNextText();
 					break;
 				case State.Reading:
 					// stop text flow and set visibility manually
@@ -61,40 +58,58 @@ public partial class Textbox : CanvasLayer
 					TextboxTween.Stop();
 					break;
 				case State.Finished:
-					SetState(State.Ready);
-					HideTextbox();
+					if (TextIndex == -1)
+					{
+						HideTextbox();
+						QueueFree();	
+					}
+					else
+					{
+						SetState(State.Ready);
+						ShowNextText();
+					}
 					break;
 			}
 		}
 	}
 
-	void HideTextbox()
+	void HideTextbox(bool IsContainerHidden = true)
 	{
 		Label.Text = "";
-		Container.Hide();
+
+		if (IsContainerHidden)
+			Container.Hide();
+
+		SetProcessInput(false);
 	}
 
-	void ShowTextbox()
+	public void ShowTextbox()
 	{
 		Label.Text = DisplayText[TextIndex];
 		Container.Show();
+
+		SetProcessInput(true);
+
+		ShowNextText();
 	}
 
 	void ShowNextText()
 	{
-		TextIndex = TextIndex < DisplayText.Count ? TextIndex + 1 : -1;
-		ShowTextbox();
+		SetState(State.Reading);
 
-		string CurrentText = DisplayText[TextIndex];
+		Label.Text = DisplayText[TextIndex];
 
+		TextboxTween = GetTree().CreateTween();
 		TextboxTween.TweenProperty
 		(
 			Label,
 			"visible_characters",
-			CurrentText.Length,
-			CurrentText.Length * _charReadRate
+			Label.Text.Length,
+			Label.Text.Length * _charReadRate
 		).From(0);
 		TextboxTween.TweenCallback(Callable.From(() => SetState(State.Finished)));
+
+		TextIndex = TextIndex == DisplayText.Count ? -1 : TextIndex + 1;
 	}
 
 	void SetState(State NextState)
