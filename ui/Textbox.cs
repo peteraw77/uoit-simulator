@@ -13,7 +13,7 @@ enum State
 public partial class Textbox : CanvasLayer
 {
 	[Export]
-	public Array<string> DisplayText;
+	public Array<string> TextQueue;
 
 	MarginContainer Container;
 	Label Label;
@@ -23,14 +23,10 @@ public partial class Textbox : CanvasLayer
 	private const float _charReadRate = 0.1f;
 
 	State CurrentState;
-
-	int TextIndex;
 	
 	public Textbox()
 	{
-		DisplayText = new Array<string>();
-
-		TextIndex = 0;
+		TextQueue = new Array<string>();
 	}
 
 	public override void _Ready()
@@ -58,15 +54,13 @@ public partial class Textbox : CanvasLayer
 					TextboxTween.Stop();
 					break;
 				case State.Finished:
-					if (TextIndex == -1)
+					if (TextQueue.Count > 0)
 					{
-						HideTextbox();
-						QueueFree();	
+						ShowNextText();
 					}
 					else
 					{
-						SetState(State.Ready);
-						ShowNextText();
+						HideTextbox();
 					}
 					break;
 			}
@@ -83,11 +77,12 @@ public partial class Textbox : CanvasLayer
 		SetProcessInput(false);
 	}
 
-	public void ShowTextbox()
+	public void ShowTextbox(Array<string> TextToAdd = null)
 	{
-		Label.Text = DisplayText[TextIndex];
-		Container.Show();
+		if (TextToAdd != null)
+			TextQueue.AddRange(TextToAdd);
 
+		Container.Show();
 		SetProcessInput(true);
 
 		ShowNextText();
@@ -97,7 +92,8 @@ public partial class Textbox : CanvasLayer
 	{
 		SetState(State.Reading);
 
-		Label.Text = DisplayText[TextIndex];
+		Label.Text = TextQueue[0];
+		TextQueue.RemoveAt(0);
 
 		TextboxTween = GetTree().CreateTween();
 		TextboxTween.TweenProperty
@@ -108,8 +104,6 @@ public partial class Textbox : CanvasLayer
 			Label.Text.Length * _charReadRate
 		).From(0);
 		TextboxTween.TweenCallback(Callable.From(() => SetState(State.Finished)));
-
-		TextIndex = TextIndex == DisplayText.Count ? -1 : TextIndex + 1;
 	}
 
 	void SetState(State NextState)
