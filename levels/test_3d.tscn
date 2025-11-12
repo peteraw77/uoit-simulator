@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://boaaxfs3jv7y7"]
+[gd_scene load_steps=12 format=3 uid="uid://boaaxfs3jv7y7"]
 
+[ext_resource type="Script" uid="uid://df6sq5l1t1vl" path="res://levels/Test3d.cs" id="1_82gvd"]
 [ext_resource type="PackedScene" uid="uid://chbh127wmfowb" path="res://entities/player_character.tscn" id="1_hkadm"]
 [ext_resource type="PackedScene" uid="uid://clp6cyrvriwll" path="res://ui/textbox.tscn" id="2_0h7nl"]
+[ext_resource type="Script" uid="uid://cyl7k8dyqo0oq" path="res://levels/UI.cs" id="3_oe2nl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yi1vn"]
 size = Vector3(160, 0.25, 160)
@@ -28,6 +30,7 @@ size = Vector3(160, 0.25, 160)
 albedo_color = Color(0.36, 0.21732, 0.0648, 1)
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_82gvd")
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("1_hkadm")]
 
@@ -49,5 +52,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_hkadm")
 transform = Transform3D(1, 0, 0, 0, 0.50000024, 0.8660253, 0, -0.8660253, 0.50000024, 0, 11, 9)
 
 [node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("3_oe2nl")
 
 [node name="Textbox" parent="UI" instance=ExtResource("2_0h7nl")]

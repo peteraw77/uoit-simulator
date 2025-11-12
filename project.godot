@@ -15,6 +15,10 @@ run/main_scene="uid://boaaxfs3jv7y7"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://assets/icons/icon.svg"
 
+[autoload]
+
+EventBus="*res://globals/EventBus.cs"
+
 [dotnet]
 
 project/assembly_name="Mechanical Child"

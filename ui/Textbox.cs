@@ -20,7 +20,7 @@ public partial class Textbox : CanvasLayer
 	
 	Tween TextboxTween;
 
-	private const float _charReadRate = 0.1f;
+	private const float _charReadRate = 0.2f;
 
 	State CurrentState;
 	
@@ -37,6 +37,9 @@ public partial class Textbox : CanvasLayer
 		CurrentState = State.Ready;
 
 		HideTextbox();
+
+		// subscribe to textbox event
+		EventBus.Instance.DisplayText += ShowTextbox;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -52,6 +55,7 @@ public partial class Textbox : CanvasLayer
 					// stop text flow and set visibility manually
 					Label.VisibleRatio = 1.0f;
 					TextboxTween.Stop();
+					SetState(State.Finished);
 					break;
 				case State.Finished:
 					if (TextQueue.Count > 0)
@@ -75,6 +79,7 @@ public partial class Textbox : CanvasLayer
 			Container.Hide();
 
 		SetProcessInput(false);
+		GetTree().Paused = false;
 	}
 
 	public void ShowTextbox(Array<string> TextToAdd = null)
@@ -82,6 +87,7 @@ public partial class Textbox : CanvasLayer
 		if (TextToAdd != null)
 			TextQueue.AddRange(TextToAdd);
 
+		GetTree().Paused = true;
 		Container.Show();
 		SetProcessInput(true);
 
@@ -92,8 +98,15 @@ public partial class Textbox : CanvasLayer
 	{
 		SetState(State.Reading);
 
-		Label.Text = TextQueue[0];
-		TextQueue.RemoveAt(0);
+		if (TextQueue.Count > 0)
+		{
+			Label.Text = TextQueue[0];
+			TextQueue.RemoveAt(0);
+		}
+		else
+		{
+			Label.Text = "";
+		}
 
 		TextboxTween = GetTree().CreateTween();
 		TextboxTween.TweenProperty
@@ -103,6 +116,7 @@ public partial class Textbox : CanvasLayer
 			Label.Text.Length,
 			Label.Text.Length * _charReadRate
 		).From(0);
+		TextboxTween.SetPauseMode(Tween.TweenPauseMode.Process);
 		TextboxTween.TweenCallback(Callable.From(() => SetState(State.Finished)));
 	}
 
