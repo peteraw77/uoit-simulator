@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://clhlcbx5fqnqw"
-path="res://.godot/imported/child_linkish.glb-ea47b5aa5955cfd6145ff399b679e335.scn"
+path="res://.godot/imported/child_linkish.glb-e62e239d8f2f1517f60fa58a08122a95.scn"
 
 [deps]
 
-source_file="res://art/child_linkish.glb"
-dest_files=["res://.godot/imported/child_linkish.glb-ea47b5aa5955cfd6145ff399b679e335.scn"]
+source_file="res://assets/meshes/child_linkish.glb"
+dest_files=["res://.godot/imported/child_linkish.glb-e62e239d8f2f1517f60fa58a08122a95.scn"]
 
 [params]
 

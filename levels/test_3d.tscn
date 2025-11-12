@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://boaaxfs3jv7y7"]
+[gd_scene load_steps=10 format=3 uid="uid://boaaxfs3jv7y7"]
 
-[ext_resource type="PackedScene" uid="uid://chbh127wmfowb" path="res://player_character.tscn" id="1_hkadm"]
+[ext_resource type="PackedScene" uid="uid://chbh127wmfowb" path="res://entities/player_character.tscn" id="1_hkadm"]
+[ext_resource type="PackedScene" uid="uid://clp6cyrvriwll" path="res://ui/textbox.tscn" id="2_0h7nl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yi1vn"]
 size = Vector3(160, 0.25, 160)
@@ -28,19 +29,25 @@ albedo_color = Color(0.36, 0.21732, 0.0648, 1)
 
 [node name="Main" type="Node3D"]
 
-[node name="Floor" type="StaticBody3D" parent="."]
+[node name="PlayerCharacter" parent="." instance=ExtResource("1_hkadm")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
 shape = SubResource("BoxShape3D_yi1vn")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor/CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor/CollisionShape3D"]
 material_override = SubResource("StandardMaterial3D_s6xjt")
 mesh = SubResource("BoxMesh_yi1vn")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_hkadm")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 11, 9)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 0.50000024, 0.8660253, 0, -0.8660253, 0.50000024, 0, 11, 9)
 
-[node name="PlayerCharacter" parent="." instance=ExtResource("1_hkadm")]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Textbox" parent="UI" instance=ExtResource("2_0h7nl")]
