@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://clhlcbx5fqnqw"
-path="res://.godot/imported/child_linkish.glb-e62e239d8f2f1517f60fa58a08122a95.scn"
+uid="uid://8n2q00j7wxr5"
+path="res://.godot/imported/student.glb-89c2fc20117f6a215763e4890fd3247d.scn"
 
 [deps]
 
-source_file="res://assets/meshes/child_linkish.glb"
-dest_files=["res://.godot/imported/child_linkish.glb-e62e239d8f2f1517f60fa58a08122a95.scn"]
+source_file="res://assets/meshes/student.glb"
+dest_files=["res://.godot/imported/student.glb-89c2fc20117f6a215763e4890fd3247d.scn"]
 
 [params]
 
@@ -38,5 +38,5 @@ materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
 _subresources={}
-gltf/naming_version=1
+gltf/naming_version=2
 gltf/embedded_image_handling=1

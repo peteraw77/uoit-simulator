@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://37f5qtkqgi08"]
+
+[ext_resource type="PackedScene" uid="uid://8n2q00j7wxr5" path="res://assets/meshes/student.glb" id="1_h0eme"]
+[ext_resource type="Material" uid="uid://c4l7n03asjqm0" path="res://assets/materials/player_material.tres" id="2_rxbau"]
+
+[node name="student" instance=ExtResource("1_h0eme")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/position = Vector3(0, 1.7880548, 0)
+
+[node name="head" parent="Armature/Skeleton3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 1.5056686, 0)
+
+[node name="Head" parent="Armature/Skeleton3D/head" index="0"]
+surface_material_override/0 = ExtResource("2_rxbau")
+
+[node name="Body" parent="Armature/Skeleton3D/body" index="0"]
+surface_material_override/0 = ExtResource("2_rxbau")

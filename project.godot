@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Mechanical Child"
+config/name="UOIT Simulator"
 run/main_scene="uid://boaaxfs3jv7y7"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://assets/icons/icon.svg"

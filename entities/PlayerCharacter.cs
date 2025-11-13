@@ -8,8 +8,16 @@ public partial class PlayerCharacter : CharacterBody3D
 	
 	[Export]
 	public int FallAcceleration { get; set; } = 75;
-	
+
 	private Vector3 _targetVelocity = Vector3.Zero;
+
+    public override void _Ready()
+    {
+		// exception handling is for nerds
+		AnimationPlayer AnimPlayer = GetNode<AnimationPlayer>("Pivot/student/AnimationPlayer");
+		AnimPlayer.Play("respirate");
+    }
+
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -33,18 +41,11 @@ public partial class PlayerCharacter : CharacterBody3D
 			direction.Z -= 1.0f;
 		}
 		
-		AnimationPlayer AnimPlayer = GetNode<AnimationPlayer>("Pivot/child_linkish/AnimationPlayer");
 		// update Pivot rotation
 		if (direction != Vector3.Zero)
 		{
 			direction = direction.Normalized();
 			GetNode<Node3D>("Pivot").Basis = Basis.LookingAt(direction);
-
-			AnimPlayer.Play("run");
-		}
-		else
-		{
-			AnimPlayer.Play("bind");
 		}
 
 		 // set target ground speed
