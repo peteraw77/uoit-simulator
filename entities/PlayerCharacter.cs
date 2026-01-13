@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class PlayerCharacter : CharacterBody3D
 {
 	[Export]
-	public int Speed { get; set; } = 14;
+	public int Speed { get; set; } = 6;
 	
 	[Export]
 	public int FallAcceleration { get; set; } = 75;

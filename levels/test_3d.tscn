@@ -39,4 +39,4 @@ script = ExtResource("3_oe2nl")
 [node name="Textbox" parent="UI" instance=ExtResource("2_0h7nl")]
 
 [node name="charles_hall" parent="." instance=ExtResource("5_bwwdf")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.8441348, 0.034050703, 0.9292426)
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0.8441348, 0.034050703, 0.9292426)
