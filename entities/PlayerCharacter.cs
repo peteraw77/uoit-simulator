@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class PlayerCharacter : CharacterBody3D
 {
@@ -11,13 +12,16 @@ public partial class PlayerCharacter : CharacterBody3D
 
 	private Vector3 _targetVelocity = Vector3.Zero;
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		// exception handling is for nerds
 		AnimationPlayer AnimPlayer = GetNode<AnimationPlayer>("Pivot/student/AnimationPlayer");
 		AnimPlayer.Play("respirate");
-    }
-
+		
+		// for stairs
+		// ideally would handle this at the level design stage
+		FloorMaxAngle = Mathf.DegToRad(70f);
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
