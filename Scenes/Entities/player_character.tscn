@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://chbh127wmfowb"]
 
-[ext_resource type="Script" uid="uid://dndce5pjuna05" path="res://entities/PlayerCharacter.cs" id="1_5up26"]
-[ext_resource type="PackedScene" uid="uid://37f5qtkqgi08" path="res://assets/meshes/student.tscn" id="2_t8xdw"]
+[ext_resource type="Script" uid="uid://dndce5pjuna05" path="res://Src/Entities/PlayerCharacter.cs" id="1_5up26"]
+[ext_resource type="PackedScene" uid="uid://37f5qtkqgi08" path="res://Assets/Models/Characters/student.tscn" id="2_t8xdw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t8xdw"]
 radius = 0.4

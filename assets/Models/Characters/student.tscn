@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://37f5qtkqgi08"]
 
-[ext_resource type="PackedScene" uid="uid://8n2q00j7wxr5" path="res://assets/meshes/student.glb" id="1_h0eme"]
-[ext_resource type="Material" uid="uid://c4l7n03asjqm0" path="res://assets/materials/player_material.tres" id="2_rxbau"]
+[ext_resource type="PackedScene" uid="uid://8n2q00j7wxr5" path="res://Assets/Models/Characters/student.glb" id="1_h0eme"]
+[ext_resource type="Material" uid="uid://c4l7n03asjqm0" path="res://Assets/Materials/player_material.tres" id="2_rxbau"]
 
 [node name="student" instance=ExtResource("1_h0eme")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)

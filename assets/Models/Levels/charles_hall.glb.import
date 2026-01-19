@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c7gsn32du0rr5"
-path="res://.godot/imported/charles_hall.glb-63a429c53202b1e9b3f1fded4137384a.scn"
+path="res://.godot/imported/charles_hall.glb-a6c46a64ca1e4cbcc6978891d4d75597.scn"
 
 [deps]
 
-source_file="res://levels/charles_hall.glb"
-dest_files=["res://.godot/imported/charles_hall.glb-63a429c53202b1e9b3f1fded4137384a.scn"]
+source_file="res://Assets/Models/Levels/charles_hall.glb"
+dest_files=["res://.godot/imported/charles_hall.glb-a6c46a64ca1e4cbcc6978891d4d75597.scn"]
 
 [params]
 

@@ -20,7 +20,7 @@ public partial class Textbox : CanvasLayer
 	
 	Tween TextboxTween;
 
-	private const float _charReadRate = 0.2f;
+	private const float _charReadRate = .04f;
 
 	State CurrentState;
 	
