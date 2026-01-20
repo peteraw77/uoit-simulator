@@ -1,9 +1,11 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public partial class PlayerCharacter : CharacterBody3D
 {
+	[Export]
+	public Area3D InteractionDetector { get; set; }
+
 	[Export]
 	public int Speed { get; set; } = 6;
 	
@@ -11,6 +13,9 @@ public partial class PlayerCharacter : CharacterBody3D
 	public int FallAcceleration { get; set; } = 75;
 
 	private Vector3 _targetVelocity = Vector3.Zero;
+
+	private HashSet<InteractableArea> _interactables = new();
+	private IInteractable _currentInteractable;
 
 	public override void _Ready()
 	{
@@ -21,6 +26,17 @@ public partial class PlayerCharacter : CharacterBody3D
 		// for stairs
 		// ideally would handle this at the level design stage
 		FloorMaxAngle = Mathf.DegToRad(70f);
+
+        InteractionDetector.AreaEntered += OnAreaEntered;
+        InteractionDetector.AreaExited += OnAreaExited;
+	}
+		
+	public override void _Input(InputEvent @event)
+	{
+	    if (@event.IsActionPressed("interact") && _currentInteractable != null)
+	    {
+	        _currentInteractable.Interact(this);
+	    }
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -64,5 +80,43 @@ public partial class PlayerCharacter : CharacterBody3D
 
 		Velocity = _targetVelocity;
 		MoveAndSlide();
+	}
+
+    private void OnAreaEntered(Area3D OtherArea)
+    {
+        if (!(OtherArea is InteractableArea))
+			return;
+		
+		_interactables.Add((InteractableArea) OtherArea);
+
+		UpdateCurrentInteractable();
+    }
+
+    private void OnAreaExited(Area3D OtherArea)
+    {
+        if (!(OtherArea is InteractableArea))
+			return;
+		
+		_interactables.Remove((InteractableArea) OtherArea);
+
+		UpdateCurrentInteractable();
+    }
+	
+	private void UpdateCurrentInteractable()
+	{
+		_currentInteractable = null;
+		float bestDistance = float.MaxValue;
+
+		foreach (InteractableArea interactable in _interactables)
+		{
+			float distance = GlobalPosition.DistanceTo(interactable.GlobalPosition);
+
+			if  (distance < bestDistance && interactable.GetParent() is IInteractable)
+			{
+				bestDistance = distance;
+				
+				_currentInteractable = (IInteractable) interactable.GetParent();
+			}
+		}
 	}
 }
