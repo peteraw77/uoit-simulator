@@ -14,6 +14,10 @@ public partial class StudentNPC : CharacterBody3D, IInteractable
 
     public void Interact(Node Interactor)
     {
-        GD.Print("Hello world, Kendrick here");
+		EventBus.Instance.EmitDisplayText
+		([
+			"I'm just a student...",
+			"What the hell do I know!"
+		]);
     }
 }

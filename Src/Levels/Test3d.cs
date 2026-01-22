@@ -11,6 +11,6 @@ public partial class Test3d : Node3D
 			"Welcome to Ontario Tech.",
 			"Your day begins at Charles Hall.",
 			"Don't be late for your first class!"
-		]);      
+		]);
 	}
 }
