@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bboorgcdua88g"]
+
+[ext_resource type="Script" uid="uid://dh2ulapl6jmco" path="res://Src/Entities/StudentNPC.cs" id="1_56uvv"]
+[ext_resource type="PackedScene" uid="uid://cytjgbk5awn6j" path="res://Assets/Models/Characters/student_npc.tscn" id="1_gxtxd"]
+[ext_resource type="PackedScene" uid="uid://pwwf6g2kqo17" path="res://Scenes/Components/interactable_area.tscn" id="2_6hfo5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_56uvv"]
+radius = 0.4
+height = 1.1382599
+
+[node name="StudentNPC" type="CharacterBody3D" node_paths=PackedStringArray("Area")]
+script = ExtResource("1_56uvv")
+Area = NodePath("InteractableArea")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="student" parent="Pivot" instance=ExtResource("1_gxtxd")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.271, 0)
+
+[node name="CollisionCapsule" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5731613, 0)
+shape = SubResource("CapsuleShape3D_56uvv")
+
+[node name="InteractableArea" parent="." instance=ExtResource("2_6hfo5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3998114, 0)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cytjgbk5awn6j"]
+
+[ext_resource type="PackedScene" uid="uid://8n2q00j7wxr5" path="res://Assets/Models/Characters/student.glb" id="1_oqkvt"]
+[ext_resource type="Material" uid="uid://hant126ggecl" path="res://Assets/Materials/student_npc_material.tres" id="2_oqkvt"]
+
+[node name="student" instance=ExtResource("1_oqkvt")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="Head" parent="Armature/Skeleton3D/head" index="0"]
+surface_material_override/0 = ExtResource("2_oqkvt")
+
+[node name="Body" parent="Armature/Skeleton3D/body" index="0"]
+surface_material_override/0 = ExtResource("2_oqkvt")

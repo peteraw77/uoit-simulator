@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://clp6cyrvriwll"]
 
-[ext_resource type="Script" uid="uid://dury5gj5nndiv" path="res://Src/Ui/Textbox.cs" id="1_gs7l0"]
+[ext_resource type="Script" uid="uid://oa0n4gtn3kat" path="res://Src/UI/Textbox.cs" id="1_apdxd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2wcy"]
 bg_color = Color(0.239216, 0.239216, 0.239216, 1)
@@ -14,8 +14,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="Textbox" type="CanvasLayer"]
-script = ExtResource("1_gs7l0")
-DisplayText = "I am root."
+script = ExtResource("1_apdxd")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 12

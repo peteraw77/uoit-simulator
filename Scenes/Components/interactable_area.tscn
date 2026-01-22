@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://pwwf6g2kqo17"]
+
+[ext_resource type="Script" uid="uid://cqekofkph1ed4" path="res://Src/Components/InteractableArea.cs" id="1_qjy46"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_e088d"]
+height = 0.1
+radius = 2.0
+
+[node name="InteractableArea" type="Area3D"]
+script = ExtResource("1_qjy46")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_e088d")

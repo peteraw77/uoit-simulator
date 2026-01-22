@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public partial class PlayerCharacter : CharacterBody3D
 {
 	[Export]
-	public Area3D InteractionDetector { get; set; }
+	private Area3D InteractionDetector;
 
 	[Export]
 	public int Speed { get; set; } = 6;
@@ -27,16 +27,19 @@ public partial class PlayerCharacter : CharacterBody3D
 		// ideally would handle this at the level design stage
 		FloorMaxAngle = Mathf.DegToRad(70f);
 
-        InteractionDetector.AreaEntered += OnAreaEntered;
-        InteractionDetector.AreaExited += OnAreaExited;
+		if (InteractionDetector != null)
+		{
+			InteractionDetector.AreaEntered += OnAreaEntered;
+			InteractionDetector.AreaExited += OnAreaExited;
+		}
 	}
 		
 	public override void _Input(InputEvent @event)
 	{
-	    if (@event.IsActionPressed("interact") && _currentInteractable != null)
-	    {
-	        _currentInteractable.Interact(this);
-	    }
+		if (@event.IsActionPressed("interact") && _currentInteractable != null)
+		{
+			_currentInteractable.Interact(this);
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -82,25 +85,25 @@ public partial class PlayerCharacter : CharacterBody3D
 		MoveAndSlide();
 	}
 
-    private void OnAreaEntered(Area3D OtherArea)
-    {
-        if (!(OtherArea is InteractableArea))
+	private void OnAreaEntered(Area3D OtherArea)
+	{
+		if (!(OtherArea is InteractableArea))
 			return;
 		
 		_interactables.Add((InteractableArea) OtherArea);
 
 		UpdateCurrentInteractable();
-    }
+	}
 
-    private void OnAreaExited(Area3D OtherArea)
-    {
-        if (!(OtherArea is InteractableArea))
+	private void OnAreaExited(Area3D OtherArea)
+	{
+		if (!(OtherArea is InteractableArea))
 			return;
 		
 		_interactables.Remove((InteractableArea) OtherArea);
 
 		UpdateCurrentInteractable();
-    }
+	}
 	
 	private void UpdateCurrentInteractable()
 	{
