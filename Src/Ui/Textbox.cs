@@ -42,32 +42,29 @@ public partial class Textbox : CanvasLayer
 		EventBus.Instance.DisplayText += ShowTextbox;
 	}
 
-	public override void _Input(InputEvent @event)
+	public void Advance()
 	{
-		if (@event.IsActionPressed("ui_accept"))
+		switch (CurrentState)
 		{
-			switch (CurrentState)
-			{
-				case State.Ready:
+			case State.Ready:
+				ShowNextText();
+				break;
+			case State.Reading:
+				// stop text flow and set visibility manually
+				Label.VisibleRatio = 1.0f;
+				TextboxTween.Stop();
+				SetState(State.Finished);
+				break;
+			case State.Finished:
+				if (TextQueue.Count > 0)
+				{
 					ShowNextText();
-					break;
-				case State.Reading:
-					// stop text flow and set visibility manually
-					Label.VisibleRatio = 1.0f;
-					TextboxTween.Stop();
-					SetState(State.Finished);
-					break;
-				case State.Finished:
-					if (TextQueue.Count > 0)
-					{
-						ShowNextText();
-					}
-					else
-					{
-						HideTextbox();
-					}
-					break;
-			}
+				}
+				else
+				{
+					HideTextbox();
+				}
+				break;
 		}
 	}
 
@@ -78,7 +75,6 @@ public partial class Textbox : CanvasLayer
 		if (IsContainerHidden)
 			Container.Hide();
 
-		SetProcessInput(false);
 		GetTree().Paused = false;
 	}
 
@@ -89,7 +85,8 @@ public partial class Textbox : CanvasLayer
 
 		GetTree().Paused = true;
 		Container.Show();
-		SetProcessInput(true);
+		
+		GetNode<TextboxRoot>("MarginContainer").Activate();
 
 		ShowNextText();
 	}
