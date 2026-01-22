@@ -15,7 +15,8 @@ public partial class Textbox : CanvasLayer
 	[Export]
 	public Array<string> TextQueue;
 
-	MarginContainer Container;
+	private TextboxRoot Root;
+
 	Label Label;
 	
 	Tween TextboxTween;
@@ -31,12 +32,15 @@ public partial class Textbox : CanvasLayer
 
 	public override void _Ready()
 	{
-		Container = GetNodeOrNull<MarginContainer>("MarginContainer");
-		Label = GetNodeOrNull<Label>("MarginContainer/MarginContainer/HBoxContainer/Label");
+		Root = GetNodeOrNull<TextboxRoot>("Root");
+		Label = GetNodeOrNull<Label>("Root/MarginContainer/HBoxContainer/Label");
 
 		CurrentState = State.Ready;
 
 		HideTextbox();
+		
+		// subscribe to controller input
+		Root.AdvanceRequested += Advance;
 
 		// subscribe to textbox event
 		EventBus.Instance.DisplayText += ShowTextbox;
@@ -73,7 +77,7 @@ public partial class Textbox : CanvasLayer
 		Label.Text = "";
 
 		if (IsContainerHidden)
-			Container.Hide();
+			Root.Hide();
 
 		GetTree().Paused = false;
 	}
@@ -84,9 +88,9 @@ public partial class Textbox : CanvasLayer
 			TextQueue.AddRange(TextToAdd);
 
 		GetTree().Paused = true;
-		Container.Show();
+		Root.Show();
 		
-		GetNode<TextboxRoot>("MarginContainer").Activate();
+		Root.Activate();
 
 		ShowNextText();
 	}

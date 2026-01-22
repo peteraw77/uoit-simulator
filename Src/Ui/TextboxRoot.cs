@@ -1,17 +1,16 @@
 using Godot;
 public partial class TextboxRoot : MarginContainer
 {
-    private Textbox Textbox;
+	[Signal]
+    public delegate void AdvanceRequestedEventHandler();	
 
     public override void _Ready()
     {
-        Textbox = GetParent<Textbox>();
-
         ProcessMode = ProcessModeEnum.WhenPaused;
         MouseFilter = MouseFilterEnum.Stop;
         FocusMode = FocusModeEnum.All;
     }
-    
+ 
     public void Activate()
     {
         GrabFocus();
@@ -21,7 +20,9 @@ public partial class TextboxRoot : MarginContainer
     {
         if (@event.IsActionPressed("ui_accept"))
         {
-            Textbox.Advance();
+            // to be consumed by textbox
+            EmitSignal(SignalName.AdvanceRequested);
+
             AcceptEvent();
         }
     }
