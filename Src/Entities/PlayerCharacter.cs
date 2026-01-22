@@ -39,6 +39,8 @@ public partial class PlayerCharacter : CharacterBody3D
 		if (@event.IsActionPressed("interact") && _currentInteractable != null)
 		{
 			_currentInteractable.Interact(this);
+			
+			GetViewport().SetInputAsHandled();
 		}
 	}
 

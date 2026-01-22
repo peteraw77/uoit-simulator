@@ -4,6 +4,9 @@ public partial class StudentNPC : CharacterBody3D, IInteractable
 {
     [Export]
     public InteractableArea Area { set; get; }
+
+	[Export]
+	private Godot.Collections.Array<string> DisplayText;
     
     public override void _Ready()
     {
@@ -14,10 +17,6 @@ public partial class StudentNPC : CharacterBody3D, IInteractable
 
     public void Interact(Node Interactor)
     {
-		EventBus.Instance.EmitDisplayText
-		([
-			"I'm just a student...",
-			"What the hell do I know!"
-		]);
+		EventBus.Instance.EmitDisplayText(DisplayText);
     }
 }
