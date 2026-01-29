@@ -17,36 +17,71 @@ corner_radius_bottom_left = 3
 [node name="Textbox" type="CanvasLayer"]
 script = ExtResource("1_apdxd")
 
-[node name="Root" type="MarginContainer" parent="."]
+[node name="Root" type="VBoxContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -226.0
+offset_top = -343.0
 grow_horizontal = 2
 grow_vertical = 0
+alignment = 2
+script = ExtResource("2_equbo")
+
+[node name="NameContainer" type="MarginContainer" parent="Root"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 0
+
+[node name="Panel" type="Panel" parent="Root/NameContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o2wcy")
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/NameContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Root/NameContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 20
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextContainer" type="MarginContainer" parent="Root"]
+custom_minimum_size = Vector2(0, 226)
+layout_mode = 2
 focus_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
-script = ExtResource("2_equbo")
 
-[node name="Panel" type="Panel" parent="Root"]
+[node name="Panel" type="Panel" parent="Root/TextContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o2wcy")
 
-[node name="MarginContainer" type="MarginContainer" parent="Root"]
+[node name="MarginContainer" type="MarginContainer" parent="Root/TextContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Root/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/TextContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Root/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Root/TextContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1

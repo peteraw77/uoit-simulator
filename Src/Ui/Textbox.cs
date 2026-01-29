@@ -16,8 +16,11 @@ public partial class Textbox : CanvasLayer
 	public Array<string> TextQueue;
 
 	private TextboxRoot Root;
+	private Container TextContainer;
+	private Container NameContainer;
 
-	Label Label;
+	Label TextLabel;
+	Label NameLabel;
 	
 	Tween TextboxTween;
 
@@ -33,7 +36,10 @@ public partial class Textbox : CanvasLayer
 	public override void _Ready()
 	{
 		Root = GetNodeOrNull<TextboxRoot>("Root");
-		Label = GetNodeOrNull<Label>("Root/MarginContainer/HBoxContainer/Label");
+		TextContainer = GetNodeOrNull<Container>("Root/TextContainer");
+		NameContainer = GetNodeOrNull<Container>("Root/NameContainer");
+		TextLabel = GetNodeOrNull<Label>("Root/TextContainer/MarginContainer/HBoxContainer/Label");
+		NameLabel = GetNodeOrNull<Label>("Root/NameContainer/MarginContainer/Label");
 
 		CurrentState = State.Ready;
 
@@ -44,6 +50,7 @@ public partial class Textbox : CanvasLayer
 
 		// subscribe to textbox event
 		EventBus.Instance.DisplayText += ShowTextbox;
+		EventBus.Instance.NamedDisplayText += ShowNamedTextbox;
 	}
 
 	public void Advance()
@@ -55,7 +62,7 @@ public partial class Textbox : CanvasLayer
 				break;
 			case State.Reading:
 				// stop text flow and set visibility manually
-				Label.VisibleRatio = 1.0f;
+				TextLabel.VisibleRatio = 1.0f;
 				TextboxTween.Stop();
 				SetState(State.Finished);
 				break;
@@ -74,7 +81,7 @@ public partial class Textbox : CanvasLayer
 
 	void HideTextbox(bool IsContainerHidden = true)
 	{
-		Label.Text = "";
+		TextLabel.Text = "";
 
 		if (IsContainerHidden)
 			Root.Hide();
@@ -91,8 +98,20 @@ public partial class Textbox : CanvasLayer
 		Root.Show();
 		
 		Root.Activate();
+		
+		// hide name
+		NameContainer.Hide();
 
 		ShowNextText();
+	}
+
+	public void ShowNamedTextbox(string Name, Array<string> TextToAdd = null)
+	{
+		ShowTextbox(TextToAdd);
+	
+		// show name
+		NameLabel.Text = Name;
+		NameContainer.Show();
 	}
 
 	void ShowNextText()
@@ -101,21 +120,21 @@ public partial class Textbox : CanvasLayer
 
 		if (TextQueue.Count > 0)
 		{
-			Label.Text = TextQueue[0];
+			TextLabel.Text = TextQueue[0];
 			TextQueue.RemoveAt(0);
 		}
 		else
 		{
-			Label.Text = "";
+			TextLabel.Text = "";
 		}
 
 		TextboxTween = GetTree().CreateTween();
 		TextboxTween.TweenProperty
 		(
-			Label,
+			TextLabel,
 			"visible_characters",
-			Label.Text.Length,
-			Label.Text.Length * _charReadRate
+			TextLabel.Text.Length,
+			TextLabel.Text.Length * _charReadRate
 		).From(0);
 		TextboxTween.SetPauseMode(Tween.TweenPauseMode.Process);
 		TextboxTween.TweenCallback(Callable.From(() => SetState(State.Finished)));

@@ -17,6 +17,6 @@ public partial class StudentNPC : CharacterBody3D, IInteractable
 
     public void Interact(Node Interactor)
     {
-		EventBus.Instance.EmitDisplayText(DisplayText);
+		EventBus.Instance.EmitNamedDisplayText(Name, DisplayText);
     }
 }
